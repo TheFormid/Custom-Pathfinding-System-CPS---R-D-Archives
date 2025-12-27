@@ -1,0 +1,206 @@
+wait(0.001)
+
+local Road = {}
+
+local Start = game.Workspace.Targets.Part1
+local Finish = game.Workspace.Targets.Part2
+local Points = game.Workspace.Points
+
+local DidWeFindTarget = false
+local WhiteList = {}
+
+for i , v in pairs(game.Workspace.DangerParts:GetChildren()) do --WhiteList ayarlanıyor...
+	table.insert(WhiteList,i,v)
+end
+
+table.insert(WhiteList,1,Start)
+table.insert(WhiteList,1,Finish)
+
+function MakeTheRoad(MostNearPart) --Yolu Kurma
+	
+	table.insert(Road,1,MostNearPart)
+	MostNearPart.Material = "Neon"
+	MostNearPart.BrickColor = BrickColor.new("Electric blue")
+	
+	local NextPart = nil
+	
+	if MostNearPart == Finish and MostNearPart:GetAttribute("Distance") then
+	--	print("One Punch")
+		for i ,v in pairs(game.Workspace.Points:GetDescendants()) do
+			if v:IsA("Part") then
+				v.Transparency = 1
+			end
+		end
+		
+	elseif MostNearPart:GetAttribute("Distance") and MostNearPart.Parent.Name == "1" then
+		
+		local Distance1 = (MostNearPart.Position - Finish.Position).magnitude
+		local CFrame1 = CFrame.new(MostNearPart.Position,Finish.Position)
+		local RayDirection1 = CFrame1.LookVector 
+
+		local sozdebulunmuspart = Instance.new("Part")
+		sozdebulunmuspart.Material = "Neon"
+		sozdebulunmuspart.BrickColor = BrickColor.new("Lime green")
+		sozdebulunmuspart.Anchored = true
+		sozdebulunmuspart.Parent = game.Workspace
+		sozdebulunmuspart.CFrame = CFrame.new(MostNearPart.Position,Finish.Position)
+		sozdebulunmuspart.CFrame = sozdebulunmuspart.CFrame + (sozdebulunmuspart.CFrame.LookVector * Distance1/2)
+		sozdebulunmuspart.Size = Vector3.new(0.2,0.2,Distance1)
+		sozdebulunmuspart.CanCollide = false
+		MakeTheRoad(Finish)
+		
+	elseif MostNearPart:GetAttribute("Distance") and MostNearPart ~= Finish then
+		
+	--	print(MostNearPart.Parent.Name)
+		local NextFolder = game.Workspace.Points:FindFirstChild(tostring(tonumber(MostNearPart.Parent.Name)-1))
+	--	print(MostNearPart.Name)
+		for i , v in pairs(NextFolder:GetChildren()) do
+			if v.Position == MostNearPart:GetAttribute("NextPoint") then
+				
+				local Distance1 = (v.Position - MostNearPart.Position).magnitude
+				local CFrame1 = CFrame.new(v.Position,MostNearPart.Position)
+				local RayDirection1 = CFrame1.LookVector 
+				
+				local sozdebulunmuspart = Instance.new("Part")
+				sozdebulunmuspart.Material = "Neon"
+				sozdebulunmuspart.BrickColor = BrickColor.new("Lime green")
+				sozdebulunmuspart.Anchored = true
+				sozdebulunmuspart.Parent = game.Workspace
+				sozdebulunmuspart.CFrame = CFrame.new(v.Position,MostNearPart.Position)
+				sozdebulunmuspart.CFrame = sozdebulunmuspart.CFrame + (sozdebulunmuspart.CFrame.LookVector * Distance1/2)
+				sozdebulunmuspart.Size = Vector3.new(0.2,0.2,Distance1)
+				sozdebulunmuspart.CanCollide = false
+				
+				MakeTheRoad(v)
+			end
+		end
+		
+	end
+	
+end
+
+function FindTheRoad() --En Yakın Yol Seçme / FindTheRoad Başladı
+	
+	local MostNearPart = nil
+	
+	for i , v in pairs(game.Workspace.Points:GetDescendants()) do
+		if v:IsA("Part") then
+			
+			local Distance1 = (v.Position - Start.Position).magnitude
+			local CFrame1 = CFrame.new(v.Position,Start.Position)
+			local RayDirection1 = CFrame1.LookVector 
+			local Ray1 = Ray.new(v.Position, RayDirection1 * Distance1)
+			local FoundedPart1 = workspace:FindPartOnRayWithWhitelist(Ray1,WhiteList)
+			
+			if FoundedPart1 == Start and MostNearPart == nil and v:GetAttribute("Distance") then
+				MostNearPart = v
+			elseif FoundedPart1 == Start and v:GetAttribute("Distance") and v:GetAttribute("Distance") + Distance1 < MostNearPart:GetAttribute("Distance") + (MostNearPart.Position-Start.Position).magnitude then
+				MostNearPart = v
+			end
+			
+		end
+	end
+	
+	if MostNearPart ~= nil then
+		
+		local Distance1 = (Start.Position - MostNearPart.Position).magnitude
+		local CFrame1 = CFrame.new(Start.Position,MostNearPart.Position)
+		local RayDirection1 = CFrame1.LookVector 
+
+		local sozdebulunmuspart = Instance.new("Part")
+		sozdebulunmuspart.Material = "Neon"
+		sozdebulunmuspart.BrickColor = BrickColor.new("Lime green")
+		sozdebulunmuspart.Anchored = true
+		sozdebulunmuspart.Parent = game.Workspace
+		sozdebulunmuspart.CFrame = CFrame.new(Start.Position,MostNearPart.Position)
+		sozdebulunmuspart.CFrame = sozdebulunmuspart.CFrame + (sozdebulunmuspart.CFrame.LookVector * Distance1/2)
+		sozdebulunmuspart.Size = Vector3.new(0.2,0.2,Distance1)
+		sozdebulunmuspart.CanCollide = false
+		MakeTheRoad(MostNearPart)
+	else
+		warn("Sıçtık !!!")
+	end
+	
+end --FindTheRoad Bitti
+
+function CreateSegment(Segment,Blocks,R,G,B) --CreateSegmentBaşladı
+
+	wait(0.001)
+
+	local NextTable = {}
+
+
+	local HappenedSomething = false
+	local SegmentFolder = Instance.new("Folder")
+
+	SegmentFolder.Parent = game.Workspace.Points
+	SegmentFolder.Name = tostring(Segment)		
+
+	for i , v in pairs(game.Workspace.Points:GetChildren()) do --Yeni Blocklar
+		if v:IsA("Part") then
+
+			local CurrentPart = nil
+
+			for k,z in pairs(Blocks) do
+
+				local Distance1 = (z.Position - v.Position).magnitude
+				local CFrame1 = CFrame.new(z.Position,v.Position)
+				local RayDirection1 = CFrame1.LookVector 
+				local Ray1 = Ray.new(z.Position, RayDirection1 * Distance1)
+				local FoundedPart1 = workspace:FindPartOnRayWithWhitelist(Ray1,WhiteList)
+
+				if FoundedPart1 == nil and CurrentPart == nil then
+					CurrentPart = z
+				elseif FoundedPart1 == nil and z:GetAttribute("Distance") + Distance1 < CurrentPart:GetAttribute("Distance") + (CurrentPart.Position-v.Position).magnitude then
+					CurrentPart = z
+				end
+
+			end
+
+			if CurrentPart ~= nil then
+			--	print(Segment)
+			--	print(CurrentPart:GetAttribute("Distance"))
+				v:SetAttribute("Distance",(CurrentPart.Position-v.Position).magnitude+CurrentPart:GetAttribute("Distance"))
+				v:SetAttribute("NextPoint",CurrentPart.Position)
+				v.Color = Color3.fromRGB(R,G,B)
+				v.Material = "Neon"
+				v.Parent = SegmentFolder
+				table.insert(NextTable,1,v)
+				HappenedSomething = true
+			end	
+
+		end
+	end	
+
+	if B ~= 0 and G == 0 and R == 250 and HappenedSomething == true then
+		CreateSegment(Segment+1,NextTable,R,G,B-50)
+	elseif B == 250 and HappenedSomething == true then
+		CreateSegment(Segment+1,NextTable,R+50,G-50,B)
+	elseif G == 250 and HappenedSomething == true then
+		CreateSegment(Segment+1,NextTable,R-50,G,B+50)
+	elseif R == 250 and HappenedSomething == true and B == 0 then
+		CreateSegment(Segment+1,NextTable,R,G+50,B)
+	elseif HappenedSomething == false then -- MakeTheRoad Başlatılıyor...
+		FindTheRoad()
+	end
+
+
+
+end --CreateSegment Bitti
+
+local Table = {}
+Finish:SetAttribute("Distance",0)
+table.insert(Table,1,Finish)
+--local FirstFolder = Instance.new("Folder")
+--FirstFolder.Parent = game.Workspace.Points
+--FirstFolder.Name = "0"
+--Finish.Parent = FirstFolder
+CreateSegment(1,Table,250,0,0)
+
+--while wait(0.1) do
+--	if FirstTime == true then
+--		FirstTime = false
+--		local Table = {NearPart_1}
+--		CreateSegment(1,Table)
+--	end
+--end
