@@ -1,5 +1,5 @@
 ```markdown
-![Project Header](OriginalThumbnail.jpg)
+![Project Header](OriginalThumbnail.png)
 
 # 🧠 Custom Pathfinding System (CPS) - R&D Archives
 > **Role:** Algorithm Engineer & Solo Developer  
