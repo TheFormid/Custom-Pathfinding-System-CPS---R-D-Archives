@@ -32,6 +32,14 @@ What followed was a deep dive into Computer Science fundamentals, evolving throu
 ---
 
 ## 🔬 Phase 2: Visualizing the Logic (v4.0 - v6.0)
+
+<div align="center">
+  <img src="Assets/Heatmap.png" width="45%" alt="Heatmap Visualization" />
+  <img src="Assets/MazeGrid.png" width="45%" alt="Grid System" />
+  <p><em>Left: RGB Heatmap Propagation | Right: Node Scanning System</em></p>
+</div>
+<br>
+
 * **Goal:** Solve the maze using a "Flood Fill" (Wavefront) approach.
 * **The Breakthrough:** I implemented a node-based propagation system. The algorithm expands like water, assigning distance values to every reachable node. 
 * **Visual Debugging:** I created a real-time **Heatmap System** using RGB values. As the search wave expanded, the color shifted from Red to Blue, allowing me to *see* the algorithm "thinking."
