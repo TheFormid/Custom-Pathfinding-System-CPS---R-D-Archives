@@ -1,0 +1,103 @@
+wait(0)
+
+for i , v in pairs(game.Workspace.Parts:GetChildren()) do
+	
+	local x,y,z = math.ceil(v.Size.X),math.ceil(v.Size.Y),math.ceil(v.Size.Z)
+	
+	local pointX = math.ceil(x/5)
+	local pointY = math.ceil(y/5)
+	local pointZ = math.ceil(z/5)
+	
+	local XEnhancer = -1
+	local YEnhancer = -1
+	local ZEnhancer = -1
+	
+	if v.Orientation == Vector3.new(0,0,0) or v.Orientation == Vector3.new(0,180,0) then
+		
+		for  i = pointX,-1,-1 do
+
+			local NewPart = Instance.new("Part")
+			NewPart.Parent = game.Workspace.NewParts
+			NewPart.Size = Vector3.new(3,3,3)
+			NewPart.Anchored = true
+			NewPart.Position = Vector3.new((v.Position.X-v.Size.X/2)+(5*XEnhancer),2,(v.Position.Z+v.Size.Z/2)+7)
+
+			local NewPart = Instance.new("Part")
+			NewPart.Parent = game.Workspace.NewParts
+			NewPart.Size = Vector3.new(3,3,3)
+			NewPart.Anchored = true
+			NewPart.Position = Vector3.new((v.Position.X-v.Size.X/2)+(5*XEnhancer),2,(v.Position.Z-v.Size.Z/2)-7)
+
+			XEnhancer += 1
+
+			--	print(v.CFrame.Size.X)
+
+		end
+
+		for  i = pointZ,-1,-1 do
+
+			local NewPart = Instance.new("Part")
+			NewPart.Parent = game.Workspace.NewParts
+			NewPart.Size = Vector3.new(3,3,3)
+			NewPart.Anchored = true
+			NewPart.Position = Vector3.new((v.Position.X+v.Size.X/2)+7,2,(v.Position.Z-v.Size.Z/2)+(5*ZEnhancer))
+
+			local NewPart = Instance.new("Part")
+			NewPart.Parent = game.Workspace.NewParts
+			NewPart.Size = Vector3.new(3,3,3)
+			NewPart.Anchored = true
+			NewPart.Position = Vector3.new((v.Position.X-v.Size.X/2)-7,2,(v.Position.Z-v.Size.Z/2)+(5*ZEnhancer))
+
+			ZEnhancer += 1
+
+			--	print(v.CFrame.Size.X)
+
+		end
+		
+	elseif v.Orientation == Vector3.new(0,90,0) or v.Orientation == Vector3.new(0,-90,0) then
+		
+		v.BrickColor = BrickColor.new("Persimmon")
+		
+		for  i = pointZ,-1,-1 do
+
+			local NewPart = Instance.new("Part")
+			NewPart.Parent = game.Workspace.NewParts
+			NewPart.Size = Vector3.new(3,3,3)
+			NewPart.Anchored = true
+			NewPart.Position = Vector3.new((v.Position.X-v.Size.Z/2)+(5*ZEnhancer),2,(v.Position.Z+v.Size.X/2)+7)
+
+			local NewPart = Instance.new("Part")
+			NewPart.Parent = game.Workspace.NewParts
+			NewPart.Size = Vector3.new(3,3,3)
+			NewPart.Anchored = true
+			NewPart.Position = Vector3.new((v.Position.X-v.Size.Z/2)+(5*ZEnhancer),2,(v.Position.Z-v.Size.X/2)-7)
+
+			ZEnhancer += 1
+
+			--	print(v.CFrame.Size.X)
+
+		end
+
+		for  i = pointX,-1,-1 do
+
+			local NewPart = Instance.new("Part")
+			NewPart.Parent = game.Workspace.NewParts
+			NewPart.Size = Vector3.new(3,3,3)
+			NewPart.Anchored = true
+			NewPart.Position = Vector3.new((v.Position.X+v.Size.Z/2)+7,2,(v.Position.Z-v.Size.X/2)+(5*XEnhancer))
+
+			local NewPart = Instance.new("Part")
+			NewPart.Parent = game.Workspace.NewParts
+			NewPart.Size = Vector3.new(3,3,3)
+			NewPart.Anchored = true
+			NewPart.Position = Vector3.new((v.Position.X-v.Size.Z/2)-7,2,(v.Position.Z-v.Size.X/2)+(5*XEnhancer))
+
+			XEnhancer += 1
+
+			--	print(v.CFrame.Size.X)
+
+		end
+		
+	end
+	
+end

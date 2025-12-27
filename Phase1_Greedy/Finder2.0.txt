@@ -1,0 +1,152 @@
+--Finder 2.0
+
+local Part1 = script.Parent.Part1
+local Part2 = script.Parent.Part2
+
+local ON = false
+
+local Folder = game.Workspace["NewPoints2.0"]
+--local Folder = game.Workspace.NewParts
+
+local Road = {}
+
+local NearParts = {}
+
+--ÖNEMLİ EĞER BİR SIKINTI VARSA 33. SATIRA BAK DİSTANCE SIKINTILI OLABİLİR
+--BİRDE YUKARDAKİ FOLDERLARA DİKKAT
+
+wait(2)
+
+local closest1 = nil
+local closest2 = nil
+
+
+print("Hey")
+
+function FindTheClosest(CurrentPart)
+	
+	
+	local ClosestPart = nil
+	
+	for i , v in pairs(Folder:GetChildren()) do
+		if v == CurrentPart or v.BrickColor == "Electric blue" or v.Name == "RoadPart" then
+		else
+			local NewDistance = (CurrentPart.Position-v.Position).Magnitude
+			if NewDistance < 4 then
+				--	table.insert(NearParts,1,v)
+				if ClosestPart == nil then
+					ClosestPart = v
+				else
+					local CurrentDistance = (closest2.Position-ClosestPart.Position).Magnitude
+					local NewDistance = (closest2.Position-v.Position).Magnitude
+					if NewDistance < CurrentDistance then
+						 ClosestPart = v
+					end
+				end
+			end
+		end
+	end
+	
+	--local closest = nil
+	
+	--for i , v in pairs(NearParts) do
+	--	if closest == nil then
+	--		closest = v
+	--	else
+	--		local CurrentDistance = (closest2.Position-closest.Position).Magnitude
+	--		local NewDistance = (closest2.Position-v.Position).Magnitude
+	--		if NewDistance < CurrentDistance then
+	--			v = closest
+	--		end
+	--	end
+	--end
+	
+	if ClosestPart.Name == "EndPart" then
+		print("its the end")
+		
+		wait(0.1)
+		
+	--	for sira , partcik in pairs(NearParts) do
+		--	print(partcik.Name)
+		--	partcik.Material = "Plastic"
+		--	partcik.BrickColor = BrickColor.new("Medium stone grey")
+			
+	--	end
+		
+	--	table.clear(NearParts)
+		
+	--	closest1.BrickColor = BrickColor.new("Medium stone grey")
+	--	closest2.BrickColor = BrickColor.new("Medium stone grey")
+		
+	--	closest1.Name = "Part"
+	--	closest2.Name = "Part"
+		
+	--	closest1 = nil
+	--	closest2 = nil
+		
+	--	ON = false
+		
+	else
+		
+		ClosestPart.BrickColor = BrickColor.new("Electric blue")
+		ClosestPart.Material = "Neon"
+		ClosestPart.Name = "RoadPart"
+
+		--	table.insert(Road,1,ClosestPart)
+		table.insert(NearParts,1,ClosestPart)
+
+		wait(0.1)
+
+		FindTheClosest(ClosestPart)
+	end
+	
+end
+
+function FindThePoints()
+	for i , v in pairs(Folder:GetChildren()) do
+
+		if closest1 == nil then
+			closest1 = v
+		else
+
+			local CurrentDistance = (Part1.Position-closest1.Position).Magnitude
+			local NewDistance = (Part1.Position-v.Position).Magnitude
+
+			if NewDistance < CurrentDistance then
+				closest1 = v
+			end
+
+		end
+
+		if closest2 == nil then
+			closest2 = v
+		else
+
+			local CurrentDistance = (Part2.Position-closest2.Position).Magnitude
+			local NewDistance = (Part2.Position-v.Position).Magnitude
+
+			if NewDistance < CurrentDistance then
+				closest2 = v
+			end
+
+		end
+
+	end
+
+	closest1.BrickColor = BrickColor.new("Lime green")
+	closest2.BrickColor = BrickColor.new("Persimmon")
+
+	closest1.Name = "StartPart"
+	closest2.Name = "EndPart"
+	
+	FindTheClosest(closest1)
+
+end
+
+
+while wait(0.001) do
+	if ON == false then
+		ON = true
+		FindThePoints()
+	end
+end

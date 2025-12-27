@@ -1,0 +1,320 @@
+local Part1 = script.Parent.Part1
+local Part2 = script.Parent.Part2
+
+local ON = false
+
+local NewTarget = nil
+local NewStart = nil
+
+local Folder = game.Workspace["NewPoints2.0"]
+--local Folder = game.Workspace.NewParts
+
+local Road = {}
+
+--local SecondOldParts = {}
+
+--local OldParts = {}
+
+--local OldPart = nil
+
+local NearParts = {}
+
+--ÖNEMLİ EĞER BİR SIKINTI VARSA 33. SATIRA BAK DİSTANCE SIKINTILI OLABİLİR
+--BİRDE YUKARDAKİ FOLDERLARA DİKKAT
+
+wait(2)
+
+local closest1 = nil
+local closest2 = nil
+
+
+print("Hey")
+
+function FindTheClosest(CurrentPart)
+	
+	local WillBeCheckParts = {}
+	
+	
+	local WillBeCheckPart1 = Instance.new("Part")
+	WillBeCheckPart1.Position = CurrentPart.Position + Vector3.new(2,0,0)
+	WillBeCheckPart1.Anchored = true
+	WillBeCheckPart1.Parent = Folder
+	WillBeCheckPart1.Size = Vector3.new(1,1,1)
+	table.insert(WillBeCheckParts,1,WillBeCheckPart1)
+	local WillBeCheckPart2 = Instance.new("Part")
+	WillBeCheckPart2.Position = CurrentPart.Position + Vector3.new(-2,0,0)
+	WillBeCheckPart2.Anchored = true
+	WillBeCheckPart2.Parent = Folder
+	WillBeCheckPart2.Size = Vector3.new(1,1,1)
+	table.insert(WillBeCheckParts,1,WillBeCheckPart2)
+	local WillBeCheckPart3 = Instance.new("Part")
+	WillBeCheckPart3.Position = CurrentPart.Position + Vector3.new(0,0,2)
+	WillBeCheckPart3.Anchored = true
+	WillBeCheckPart3.Parent = Folder
+	WillBeCheckPart3.Size = Vector3.new(1,1,1)
+	table.insert(WillBeCheckParts,1,WillBeCheckPart3)
+	local WillBeCheckPart4 = Instance.new("Part")
+	WillBeCheckPart4.Position = CurrentPart.Position + Vector3.new(0,0,-2)
+	WillBeCheckPart4.Anchored = true
+	WillBeCheckPart4.Parent = Folder
+	WillBeCheckPart4.Size = Vector3.new(1,1,1)
+	table.insert(WillBeCheckParts,1,WillBeCheckPart4)
+	local WillBeCheckPart5 = Instance.new("Part")
+	WillBeCheckPart5.Position = CurrentPart.Position + Vector3.new(2,0,2)
+	WillBeCheckPart5.Anchored = true
+	WillBeCheckPart5.Parent = Folder
+	WillBeCheckPart5.Size = Vector3.new(1,1,1)
+	table.insert(WillBeCheckParts,1,WillBeCheckPart5)
+	local WillBeCheckPart6 = Instance.new("Part")
+	WillBeCheckPart6.Position = CurrentPart.Position + Vector3.new(2,0,-2)
+	WillBeCheckPart6.Anchored = true
+	WillBeCheckPart6.Parent = Folder
+	WillBeCheckPart6.Size = Vector3.new(1,1,1)
+	table.insert(WillBeCheckParts,1,WillBeCheckPart6)
+	local WillBeCheckPart7 = Instance.new("Part")
+	WillBeCheckPart7.Position = CurrentPart.Position + Vector3.new(-2,0,2)
+	WillBeCheckPart7.Anchored = true
+	WillBeCheckPart7.Parent = Folder
+	WillBeCheckPart7.Size = Vector3.new(1,1,1)
+	table.insert(WillBeCheckParts,1,WillBeCheckPart7)
+	local WillBeCheckPart8 = Instance.new("Part")
+	WillBeCheckPart8.Position = CurrentPart.Position + Vector3.new(-2,0,-2)
+	WillBeCheckPart8.Anchored = true
+	WillBeCheckPart8.Parent = Folder
+	WillBeCheckPart8.Size = Vector3.new(1,1,1)
+	table.insert(WillBeCheckParts,1,WillBeCheckPart8)
+	
+	
+	for i , v in pairs(WillBeCheckParts) do
+
+		for k , Z in pairs(game.Workspace.Parts:GetChildren()) do
+
+			local X1,X2,Z1,Z2 = ((Z.Position.X-Z.Size.X/2)-2),((Z.Position.X+Z.Size.X/2)+2),((Z.Position.Z-Z.Size.Z/2)-2),((Z.Position.Z+Z.Size.Z/2)+2)
+			if Z.Orientation == Vector3.new(0,90,0) or Z.Orientation == Vector3.new(0,-90,0) then
+				X1,X2,Z1,Z2 = ((Z.Position.X-Z.Size.Z/2)-2),((Z.Position.X+Z.Size.Z/2)+2),((Z.Position.Z-Z.Size.X/2)-2),((Z.Position.Z+Z.Size.X/2)+2)
+			end
+
+			if v.Position.X > X1 and v.Position.X < X2 and v.Position.Z > Z1 and v.Position.Z < Z2 then
+				
+				v:Destroy()
+				table.remove(WillBeCheckParts,i)
+				v:Destroy()
+
+			end
+
+
+		end
+
+	end
+	--if SecondOldParts then
+	--	for i , v in pairs(SecondOldParts) do
+	--		for k , t in pairs(WillBeCheckParts) do
+	--			if t.Position == v.Position then
+	--				t:Destroy()
+	--				table.remove(WillBeCheckParts,k)
+	--			end
+	--		end
+	--	end
+	--end
+	
+	for i , v in pairs(Folder:GetChildren()) do
+		for k , t in pairs(WillBeCheckParts) do
+			if t.Position == v.Position and v ~= t then
+				
+				t:Destroy()
+				table.remove(WillBeCheckParts,k)
+				t:Destroy()
+				
+			end
+		end
+	end
+	--for i , v in pairs(SecondOldParts) do
+
+	--	for k , Z in pairs(game.Workspace.Parts:GetChildren()) do
+
+	--		local X1,X2,Z1,Z2 = ((Z.Position.X-Z.Size.X/2)-2),((Z.Position.X+Z.Size.X/2)+2),((Z.Position.Z-Z.Size.Z/2)-2),((Z.Position.Z+Z.Size.Z/2)+2)
+	--		if Z.Orientation == Vector3.new(0,90,0) or Z.Orientation == Vector3.new(0,-90,0) then
+	--			X1,X2,Z1,Z2 = ((Z.Position.X-Z.Size.Z/2)-2),((Z.Position.X+Z.Size.Z/2)+2),((Z.Position.Z-Z.Size.X/2)-2),((Z.Position.Z+Z.Size.X/2)+2)
+	--		end
+
+	--		if v.Position.X > X1 and v.Position.X < X2 and v.Position.Z > Z1 and v.Position.Z < Z2 then
+
+	--			v:Destroy()
+	--			table.remove(SecondOldParts,i)
+	--			print("flksaflaksdklsds")
+
+	--		end
+
+
+	--	end
+
+	--end
+
+	--for i , v in pairs(OldParts) do
+
+	--	for k , Z in pairs(game.Workspace.Parts:GetChildren()) do
+
+	--		local X1,X2,Z1,Z2 = ((Z.Position.X-Z.Size.X/2)-2),((Z.Position.X+Z.Size.X/2)+2),((Z.Position.Z-Z.Size.Z/2)-2),((Z.Position.Z+Z.Size.Z/2)+2)
+	--		if Z.Orientation == Vector3.new(0,90,0) or Z.Orientation == Vector3.new(0,-90,0) then
+	--			X1,X2,Z1,Z2 = ((Z.Position.X-Z.Size.Z/2)-2),((Z.Position.X+Z.Size.Z/2)+2),((Z.Position.Z-Z.Size.X/2)-2),((Z.Position.Z+Z.Size.X/2)+2)
+	--		end
+
+	--		if v.Position.X > X1 and v.Position.X < X2 and v.Position.Z > Z1 and v.Position.Z < Z2 then
+
+	--			v:Destroy()
+	--			table.remove(OldParts,i)
+	--			print("flksaflaksdklsds")
+
+	--		end
+
+
+	--	end
+
+	--end
+	
+	local ClosestPart = nil
+	
+	wait(0.1)
+	
+	for i , v in pairs(WillBeCheckParts) do
+		if v == CurrentPart or v.BrickColor == "Electric blue" or v.Name == "RoadPart" then
+		else
+			local NewDistance = (CurrentPart.Position-v.Position).Magnitude
+			if NewDistance < 4 then
+				--	table.insert(NearParts,1,v)
+				if ClosestPart == nil then
+					ClosestPart = v
+				else
+					print(ClosestPart.Position)
+					local CurrentDistance = (closest2.Position-ClosestPart.Position).Magnitude
+					local NewDistance = (closest2.Position-v.Position).Magnitude
+					if NewDistance < CurrentDistance then
+						ClosestPart = v
+					--	print(WillBeCheckParts)
+					end
+				end
+			end
+		end
+	end
+	
+	--local closest = nil
+	
+	--for i , v in pairs(NearParts) do
+	--	if closest == nil then
+	--		closest = v
+	--	else
+	--		local CurrentDistance = (closest2.Position-closest.Position).Magnitude
+	--		local NewDistance = (closest2.Position-v.Position).Magnitude
+	--		if NewDistance < CurrentDistance then
+	--			v = closest
+	--		end
+	--	end
+	--end
+	
+	if ClosestPart == CurrentPart then
+		
+	end
+	
+	
+	if (ClosestPart.Position-closest2.Position).Magnitude < 4 then
+		print("its the end")
+		
+		wait(0.1)
+		
+	--	for sira , partcik in pairs(NearParts) do
+		--	print(partcik.Name)
+		--	partcik.Material = "Plastic"
+		--	partcik.BrickColor = BrickColor.new("Medium stone grey")
+			
+	--	end
+		
+	--	table.clear(NearParts)
+		
+	--	closest1.BrickColor = BrickColor.new("Medium stone grey")
+	--	closest2.BrickColor = BrickColor.new("Medium stone grey")
+		
+	--	closest1.Name = "Part"
+	--	closest2.Name = "Part"
+		
+	--	closest1 = nil
+	--	closest2 = nil
+		
+	--	ON = false
+		
+	else
+		
+		ClosestPart.BrickColor = BrickColor.new("Electric blue")
+		ClosestPart.Material = "Neon"
+		ClosestPart.Name = "RoadPart"
+
+		--	table.insert(Road,1,ClosestPart)
+		--table.insert(NearParts,1,ClosestPart)
+		
+		--table.clear(SecondOldParts)
+		
+		--for i , v in pairs(OldParts) do
+		--	table.insert(SecondOldParts,1,v)
+		--	table.remove(OldParts,i)
+		--end
+		
+		for i , v in pairs(WillBeCheckParts) do
+			if v.Name == "RoadPart" then
+				print("wow")
+			--	table.remove(WillBeCheckParts,i)
+			else
+				
+				v:Destroy()
+
+			end
+		end
+		
+		table.clear(WillBeCheckParts)
+		
+		
+		for i , v in pairs(Folder:GetChildren()) do
+			if v.Name == "Part" then
+				v:Destroy()
+			end
+		end
+		
+	--	wait(0.01)
+
+		FindTheClosest(ClosestPart)
+	end
+	
+end
+
+function FindThePoints()
+	
+	closest1 = Instance.new("Part")
+	closest2 = Instance.new("Part")
+	
+	closest1.Position = Vector3.new(Part1.Position.X,2,Part1.Position.Z)
+	closest2.Position = Vector3.new(Part2.Position.X,2,Part2.Position.Z)
+	
+	closest1.Size = Vector3.new(1,1,1)
+	closest2.Size = Vector3.new(1,1,1)
+	
+	closest1.Anchored = true
+	closest2.Anchored = true
+	
+	closest1.Parent = Folder
+	closest2.Parent = Folder
+
+	closest1.BrickColor = BrickColor.new("Lime green")
+	closest2.BrickColor = BrickColor.new("Persimmon")
+
+	closest1.Name = "StartPart"
+	closest2.Name = "EndPart"
+	
+	FindTheClosest(closest1)
+
+end
+
+
+while wait(0.001) do
+	if ON == false then
+		ON = true
+		FindThePoints()
+	end
+end
