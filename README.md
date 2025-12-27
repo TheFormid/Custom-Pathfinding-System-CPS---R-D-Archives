@@ -1,4 +1,3 @@
-```markdown
 <div align="center">
   <img src="OriginalThumbnail.png" width="100%" alt="Project Header" />
 </div>
