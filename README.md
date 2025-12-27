@@ -1,5 +1,7 @@
 ```markdown
-![Project Header](OriginalThumbnail.png)
+<div align="center">
+  <img src="OriginalThumbnail.png" width="100%" alt="Project Header" />
+</div>
 
 # 🧠 Custom Pathfinding System (CPS) - R&D Archives
 > **Role:** Algorithm Engineer & Solo Developer  
